@@ -38,9 +38,9 @@ func (a Alignment) MarshalText() (text []byte, err error) {
 	default:
 		return []byte("unknown"), nil
 	case AlignmentRelaxed:
-		return []byte("relaxed"), nil
+		return []byte("r"), nil
 	case AlignmentStrict:
-		return []byte("strict"), nil
+		return []byte("s"), nil
 	}
 }
 
