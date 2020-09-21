@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+    border-collapse: collapse;
+    border: 0;
+}
+th, td {
+    border: 1px solid black;
+    padding: 0.33rem;
+}
+</style>
+</head>
+<body>
+
+{{ range . }}
+
+<strong>Report Org Name</strong>: {{ .ReportMetadata.OrgName }}<br>
+<strong>Date From</strong>: {{ .ReportMetadata.DateRange.Begin }}<br>
+<strong>Date To</strong>: {{ .ReportMetadata.DateRange.End }}<br>
+<strong>Domain</strong>: {{ .PolicyPublished.Domain }}<br>
+
+<table>
+    <thead>
+        <tr>
+            <th>Source IP</th>
+            <th>Count</th>
+            <th>Disposition</th>
+            <th>SPF</th>
+            <th>DKIM</th>
+            <th>Header from</th>
+            <th>SPF domain (result)</th>
+            <th>DKIM domain (result)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{ range .Record }}
+        <tr>
+            <td>{{ .Row.SourceIP }}</td>
+            <td>{{ .Row.Count }}</td>
+            <td>{{ string .Row.PolicyEvaluated.Disposition }}</td>
+            <td>{{ string .Row.PolicyEvaluated.SPF }}</td>
+            <td>{{ string .Row.PolicyEvaluated.DKIM }}</td>
+            <td>{{ .Identifiers.HeaderFrom }}</td>
+            <td>
+                {{ range .AuthResult.SPF }}
+                    {{ .Domain }}
+                    {{ string .Scope }}
+                    {{ string .Result }}
+                {{ end }}
+            </td>
+            <td>
+                {{ range .AuthResult.DKIM }}
+                    {{ .Domain }}
+                    {{ .Selector }}
+                    {{ string .Result }}
+                {{ end }}
+            </td>
+        </tr>
+        {{ end }}
+    </tbody>
+</table>
+<br>
+{{ end }}
+
+</body>
+</html>
