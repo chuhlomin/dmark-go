@@ -12,7 +12,7 @@ import (
 // The time range in UTC covered by messages in this report, specified in seconds since epoch.
 type DateRange struct {
 	Begin int `xml:"begin" json:"begin"`
-	Eng   int `xml:"end" json:"end"`
+	End   int `xml:"end" json:"end"`
 }
 
 // Report generator metadata.
@@ -110,12 +110,11 @@ type PolicyPublished struct {
 type Result bool
 
 func (r *Result) MarshalText() (text []byte, err error) {
-	switch strings.ToLower(string(text)) {
-	case "true":
-		return []byte("true"), nil
-	default:
-		return []byte("false"), nil
+	if *r {
+		return []byte("pass"), nil
 	}
+
+	return []byte("fail"), nil
 }
 
 func (r *Result) UnmarshalText(text []byte) error {
