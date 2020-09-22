@@ -288,8 +288,8 @@ type DKIMAuthResult struct {
 type SPFDomainScope int
 
 const (
-	SPFDomainScopeHelo  SPFDomainScope = iota
-	SPFDomainScopeMFrom SPFDomainScope = iota
+	SPFDomainScopeHelo SPFDomainScope = iota
+	SPFDomainScopeMFrom
 )
 
 func (sds SPFDomainScope) MarshalText() (text []byte, err error) {
